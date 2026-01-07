@@ -1,0 +1,8 @@
+yfinance
+apache-airflow-providers-postgres
+requests
+vaderSentiment
+psycopg2-binary
+pandas
+streamlit
+matplotlib
