@@ -35,13 +35,11 @@ def analyze_sentiment_label(text):
     elif score <= -0.05: return 'Negative'
     return 'Neutral'
 
-# 3. 태스크 함수
 def fetch_and_load_prices(ticker):
-    """야후 파이낸스에서 주가 수집 및 저장"""
     conn = get_db_connection()
     cur = conn.cursor()
     try:
-        hist = yf.Ticker(ticker).history(period="7d")
+        hist = yf.Ticker(ticker).history(period="5d")
         for date, row in hist.iterrows():
             cur.execute("""
                 INSERT INTO stock_prices (stock_ticker, price_date, open_price, high_price, low_price, close_price, volume)
