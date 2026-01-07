@@ -65,7 +65,7 @@ The ETL pipeline is managed by Airflow, orchestrating the following automated ta
 
 1. **Extract** 
    - Fetches the latest news articles related to the ticker via **NewsAPI**.
-   - Retrieves historical stock price data (last 5 days) via **yfinance**.
+   - Retrieves historical stock price data (last 7 days) via **yfinance**.
 
 2. **Transform** 
    - Analyzes news headlines and snippets using the **VADER** sentiment tool.

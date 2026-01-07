@@ -39,7 +39,7 @@ def fetch_and_load_prices(ticker):
     conn = get_db_connection()
     cur = conn.cursor()
     try:
-        hist = yf.Ticker(ticker).history(period="5d")
+        hist = yf.Ticker(ticker).history(period="7d")
         for date, row in hist.iterrows():
             cur.execute("""
                 INSERT INTO stock_prices (stock_ticker, price_date, open_price, high_price, low_price, close_price, volume)
