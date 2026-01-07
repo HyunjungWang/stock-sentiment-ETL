@@ -1,0 +1,16 @@
+# 보안 파일 (가장 중요!)
+.env
+
+# 파이썬 캐시 파일
+__pycache__/
+*.pyc
+
+# 에어플로우 관련 파일
+logs/
+plugins/
+airflow.db
+unittests.cfg
+
+# 운영체제 설정 파일
+.DS_Store
+Thumbs.db
