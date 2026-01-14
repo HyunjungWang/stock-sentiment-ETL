@@ -24,5 +24,8 @@ deploy_job:
     - local-server  
   script:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - echo "DB_USER=$DB_USER" >> .env
+    - echo "DB_PASSWORD=$DB_PASSWORD" >> .env
+    - echo "DB_NAME=$DB_NAME" >> .env
     - docker-compose pull
     - docker-compose up -d
