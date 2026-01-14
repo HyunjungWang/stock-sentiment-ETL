@@ -23,6 +23,10 @@ deploy_job:
   tags:
     - local-server  
   script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+
+    - rm -f .env
+
     - echo "DB_NAME=$DB_NAME" > .env
     - echo "DB_USER=$DB_USER" >> .env
     - echo "DB_PASSWORD=$DB_PASSWORD" >> .env
@@ -32,5 +36,8 @@ deploy_job:
     - echo "_PIP_ADDITIONAL_REQUIREMENTS=$_PIP_ADDITIONAL_REQUIREMENTS" >> .env
     - echo "AIRFLOW_ADMIN_USER=$AIRFLOW_ADMIN_USER" >> .env
     - echo "AIRFLOW_ADMIN_PASSWORD=$AIRFLOW_ADMIN_PASSWORD" >> .env
+
+    - ls -la .env
+    
     - docker-compose pull
     - docker-compose up -d
