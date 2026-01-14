@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:13-alpine
+    container_name: postgres
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U airflow"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  airflow:
+    image: registry.gitlab.com/imwhj1997/stock-sentiment-pipeline/airflow:v1
+    container_name: airflow
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://${DB_USER}:${DB_PW}@postgres/${DB_NAME}
+      - AIRFLOW__CORE__EXECUTOR=LocalExecutor
+    ports:
+      - "8080:8080"
+    command: standalone
+
+  # 3. 스트림릿 (대시보드)
+  streamlit:
+    image: registry.gitlab.com/imwhj1997/stock-sentiment-pipeline/streamlit:v1
+    container_name: streamlit
+    depends_on:
+      - postgres
+    ports:
+      - "8501:8501"
+    restart: always
