@@ -38,6 +38,6 @@ deploy_job:
     - echo "AIRFLOW_ADMIN_PASSWORD=$AIRFLOW_ADMIN_PASSWORD" >> .env
 
     - ls -la .env
-    
+
     - docker-compose pull
     - docker-compose up -d
