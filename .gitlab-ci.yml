@@ -23,9 +23,15 @@ deploy_job:
   tags:
     - local-server  
   script:
-    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - echo "DB_NAME=$DB_NAME" > .env
     - echo "DB_USER=$DB_USER" >> .env
     - echo "DB_PASSWORD=$DB_PASSWORD" >> .env
-    - echo "DB_NAME=$DB_NAME" >> .env
+    - echo "NEWS_API_KEY=$NEWS_API_KEY" >> .env
+    - echo "AIRFLOW_ADMIN_USER=$AIRFLOW_ADMIN_USER" >> .env
+    - echo "AIRFLOW_ADMIN_PASSWORD=$AIRFLOW_ADMIN_PASSWORD" >> .env
+    
+    - echo "DB_HOST=db" >> .env
+    - echo "DB_PORT=5432" >> .env
+    - echo "_PIP_ADDITIONAL_REQUIREMENTS=vaderSentiment pandas requests psycopg2-binary" >> .env
     - docker-compose pull
     - docker-compose up -d
