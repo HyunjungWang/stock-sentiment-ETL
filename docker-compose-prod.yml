@@ -29,7 +29,6 @@ services:
       - "8080:8080"
     command: standalone
 
-  # 3. 스트림릿 (대시보드)
   streamlit:
     image: registry.gitlab.com/imwhj1997/stock-sentiment-pipeline/streamlit:v1
     container_name: streamlit
