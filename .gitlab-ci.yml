@@ -1,0 +1,28 @@
+stages:
+  - build
+  - deploy
+
+variables:
+  AIRFLOW_IMAGE: $CI_REGISTRY_IMAGE/airflow:v1
+  STREAMLIT_IMAGE: $CI_REGISTRY_IMAGE/streamlit:v1
+
+build_job:
+  stage: build
+  image: docker:24.0.5
+  services:
+    - docker:24.0.5-dind
+  script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker build -t $AIRFLOW_IMAGE -f Dockerfile.airflow .
+    - docker build -t $STREAMLIT_IMAGE -f Dockerfile .
+    - docker push $AIRFLOW_IMAGE
+    - docker push $STREAMLIT_IMAGE
+
+deploy_job:
+  stage: deploy
+  tags:
+    - local-server  
+  script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker-compose pull
+    - docker-compose up -d
